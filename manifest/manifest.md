@@ -1,8 +1,8 @@
 ## Student
 
-| Name   | Roll no | UID | Time & Date | Subject | Sem | Sec  |
-| :----- | :------ | :-- | :---------- | :------ | :-- | :--- |
-| string | int     | int | date , time | string  | int | char |
+| Name   | Roll no | UID | Lab no | PC no | Time & Date | Subject | Sem | Sec  |
+| :----- | :------ | :-- | ------ | ----- | :---------- | :------ | :-- | :--- |
+| string | int     | int | int    | int   | date , time | string  | int | char |
 
 ---
 
