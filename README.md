@@ -17,7 +17,7 @@
 
 ## Assests
 
-- Link of Figma design: `...coming soon`
+- Link of Figma design: `https://www.figma.com/file/tq9YSz9h66o8zFjFYvlXLA/Lab-Entery?type=design&node-id=0%3A1&t=Bb1DqNo88THg52Tp-1`
 
 ---
 
