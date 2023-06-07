@@ -6,8 +6,6 @@
 
 ---
 
-<!-- OTP IS USED FOR AUTHENTICATION -->
-
 <br><br>
 
 ## Lab
@@ -16,7 +14,6 @@
 | :------- | :----- | :---- | :---- | :------- | :------------- |
 | string   | int    | int   | char  | int      | circular / row |
 
-<!--  FOR UPDATED LAB ENTRIES -->
 
 ---
 
