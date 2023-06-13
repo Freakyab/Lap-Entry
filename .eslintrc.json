@@ -9,7 +9,6 @@
     "sourceType": "module"
   },
   "rules": {
-    "quotes": ["error", "double", { "allowTemplateLiterals": true }],
-    "react/prop-types": "off"
+    "quotes": ["error", "double", { "allowTemplateLiterals": true }]
   }
 }
