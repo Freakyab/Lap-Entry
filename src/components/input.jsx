@@ -1,7 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-function InputBox({ placeholder, type, value, setValue, actionType }) {
+function InputBox({
+  placeholder, type, value, setValue, actionType,
+}) {
   return (
     <div className="w-full my-2">
       <input

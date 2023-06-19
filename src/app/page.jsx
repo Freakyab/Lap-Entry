@@ -66,7 +66,8 @@ export default function Home() {
         right-10
         text-base
         w-fit p-3 bg-tertiary text-white rounded-md  cursor-pointer shadow-lg active:shadow-sm"
-          type="button">
+          type="button"
+        >
           <MdAdminPanelSettings className="text-xl mr-2" />
           <span>Admin</span>
         </button>
@@ -78,7 +79,8 @@ export default function Home() {
           onSubmit={(e) => {
             e.preventDefault();
             console.log(formState);
-          }}>
+          }}
+        >
           <InputBox
             placeholder="UID"
             type="number"
