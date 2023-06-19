@@ -3,13 +3,18 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import PropTypes from "prop-types";
 import { usePagination, useTable } from "react-table";
+import { useRouter } from "next/navigation";
+
 import { AiOutlineArrowRight, AiOutlineArrowLeft } from "react-icons/ai";
+import { BiLogOut } from "react-icons/bi";
+import { FaFilter } from "react-icons/fa";
+
 import InputBox from "../../components/input";
 import dataList from "./data.json";
 
 function AdminPage() {
+  const router = useRouter();
   const [isLogin, setIsLogin] = useState(false);
   const data = useMemo(() => dataList, []);
   const columns = useMemo(
@@ -69,8 +74,30 @@ function AdminPage() {
 
   return (
     <main className="bg-primary w-screen h-screen flex flex-col items-center justify-center">
-      <header className="m-10">
+      <header className="w-4/5 flex justify-between m-10">
         <h1 className="font-bold text-5xl mx-14 text-tertiary">Admin Page</h1>
+        <div>
+          <button
+            type="button"
+            className="text-base p-3 bg-tertiary text-white rounded-md w-fit cursor-pointer shadow-lg active:shadow-sm mx-2"
+          >
+            <span className="text-white">
+              <FaFilter />
+            </span>
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              router.push("/");
+              setIsLogin(false);
+            }}
+            className="text-base p-3 bg-tertiary text-white rounded-md w-fit cursor-pointer shadow-lg active:shadow-sm"
+          >
+            <span className="text-white">
+              <BiLogOut />
+            </span>
+          </button>
+        </div>
       </header>
       <div className="w-4/5  bg-white rounded-lg shadow-lg">
         <table {...getTableProps} className="rounded-lg">
