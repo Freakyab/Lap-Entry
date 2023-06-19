@@ -2,48 +2,59 @@
 
 import React from "react";
 import Table from "rc-table";
+import data from "./data.json";
 
 function AdminPage() {
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-      width: 100,
-    },
-    {
-      title: "Age",
-      dataIndex: "age",
-      key: "age",
-      width: 100,
-    },
-    {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
+      title: "UID",
+      dataIndex: "uid",
+      key: "uid",
       width: 200,
     },
     {
-      title: "Operations",
-      dataIndex: "",
-      key: "operations",
-      render: () => <span>Delete</span>,
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      width: 300,
     },
-  ];
+    {
+      title: "Lab no.",
+      dataIndex: "labno",
+      key: "labno.",
+      width: 100,
+    },
+    {
+      title: "Pc no.",
+      dataIndex: "pcno",
+      key: "pcno",
+      width: 100,
+    },
+    {
+      title: "Subject",
+      dataIndex: "subject",
+      key: "subject",
+      width: 200,
+    },
+    {
+      title: "Semester",
+      dataIndex: "semester",
+      key: "semester",
+      width: 100,
+    },
+    {
+      title: "Section",
+      dataIndex: "section",
+      key: "section",
+      width: 100,
+    },
 
-  const data = [
-    {
-      name: "Jack",
-      age: 28,
-      address: "some where",
-      key: "1",
-    },
-    {
-      name: "Rose",
-      age: 36,
-      address: "some where",
-      key: "2",
-    },
+    // {
+    //   title: "Operations",
+    //   dataIndex: "",
+    //   key: "operations",
+    //   render: () => <span>Delete</span>,
+    // },
   ];
 
   return (
@@ -51,13 +62,22 @@ function AdminPage() {
       <header className="m-10">
         <h1 className="font-bold text-5xl mx-14 text-tertiary">Admin Page</h1>
       </header>
-      <Table
-        columns={columns}
-        data={data}
-        tableLayout="auto"
-        rowKey={(record) => record.key}
-        onHeaderRow={() => ({ style: { fontSize: "2rem" } })}
-      />
+      <div className="w-4/5 h-1/2 bg-white rounded-lg shadow-lg">
+        <Table
+          columns={columns}
+          data={data}
+          scroll={{ y: 400 }}
+          rowKey={(record) => record.key}
+          // onRow={(record) => {
+          //   return {
+          //     onClick: () => {
+          //       console.log(record);
+          //     },
+          //   };
+          // }}
+          className=" bg-white rounded-lg shadow-lg table-fixed"
+        />
+      </div>
     </main>
   );
 }
