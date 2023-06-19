@@ -68,13 +68,6 @@ function AdminPage() {
           data={data}
           scroll={{ y: 400 }}
           rowKey={(record) => record.key}
-          // onRow={(record) => {
-          //   return {
-          //     onClick: () => {
-          //       console.log(record);
-          //     },
-          //   };
-          // }}
           className=" bg-white rounded-lg shadow-lg table-fixed"
         />
       </div>
