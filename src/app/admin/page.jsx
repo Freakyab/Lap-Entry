@@ -153,6 +153,7 @@ function AdminPage() {
   );
 }
 
+// eslint-disable-next-line react/prop-types
 function AdminPageLogin({ setIsLogin }) {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
@@ -186,9 +187,5 @@ function AdminPageLogin({ setIsLogin }) {
     </main>
   );
 }
-
-AdminPageLogin.prototype = {
-  setIsLogin: PropTypes.func.isRequired,
-};
 
 export default AdminPage;
