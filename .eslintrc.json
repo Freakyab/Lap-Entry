@@ -8,6 +8,9 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
+  "multiline": {
+    "requireLast": true
+  },
   "rules": {
     "quotes": ["error", "double", { "allowTemplateLiterals": true }]
   }
