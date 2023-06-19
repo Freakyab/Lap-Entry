@@ -10,10 +10,12 @@ function InputBox({
         type={type || "text"}
         value={value}
         onChange={(e) => {
-          setValue({
-            type: actionType,
-            payload: e.target.value,
-          });
+          // eslint-disable-next-line no-unused-expressions
+          actionType !== undefined
+            ? setValue({
+              type: actionType,
+              payload: e.target.value,
+            }) : setValue(e.target.value);
         }}
         className="text-base p-2 rounded-md w-full  focus:ring-2 focus:ring-tertiary focus:outline-none placeholder-black placeholder:text-base placeholder:font-bold"
         placeholder={placeholder}
