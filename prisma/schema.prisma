@@ -9,5 +9,12 @@ generator client {
 
 model student {
   id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
+  uid  String @unique
+  fullname String
+  labno String
+  pcno String
+  personalLaptop Boolean
+  subject String
+  semester String
+  section String  
 }
