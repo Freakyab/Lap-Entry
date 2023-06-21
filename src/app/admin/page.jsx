@@ -77,7 +77,7 @@ function Filter({ isFilter, filter, dispatch }) {
   return (
     <div
       className={`${
-        isFilter ? "w-1/3 p-5" : "w-0 p-0"
+        isFilter ? "w-full md:w-1/3 p-5" : "w-0 p-0"
       } transition-all duration-700`}
     >
       <h1 className="font-bold  text-3xl  mx-14 text-tertiary">Filter</h1>
@@ -209,14 +209,16 @@ function AdminPage() {
 
   useEffect(() => {
     const filtered = dataList.filter((d) => {
-      const uid = d.uid.toString(); // Convert uid to string
+      const uid = d.uid.toString();
+      const semester = d.semester.toString();
+      const pcno = d.pcno.toString();
       if (
         (filter.uid === "" || uid.includes(filter.uid))
         && (filter.fullname === "" || d.name.includes(filter.fullname))
         && (filter.labno === "" || d.labno.includes(filter.labno))
-        && (filter.pcno === "" || d.pcno.includes(filter.pcno))
+        && (filter.pcno === "" || pcno.includes(filter.pcno))
         && (filter.subject === "" || d.subject.includes(filter.subject))
-        && (filter.semester === "" || d.semester.includes(filter.semester))
+        && (filter.semester === "" || semester.includes(filter.semester))
         && (filter.section === "" || d.section.includes(filter.section))
         && (filter.personalLaptop === false || d.personal_laptop === filter.personalLaptop)
 
@@ -322,7 +324,7 @@ function AdminPage() {
       <div className="flex w-4/5 h-3/5 relative overflow-hidden bg-white rounded-lg shadow-lg">
         <div
           className={`rounded-lg ${
-            isFilter ? "w-2/3" : "w-full"
+            isFilter ? "md:w-2/3 w-0" : "w-full"
           } transition-all duration-700 w-f md:!overflow-x-hidden  overflow-scroll`}
         >
           <table
