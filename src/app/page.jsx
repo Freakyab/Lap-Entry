@@ -1,9 +1,31 @@
-import React from "react";
+"use client"
+import React, { useState } from "react";
 import InputBox from "../components/input";
 import CheckBoxInput from "../components/checkboxinput";
 import { MdAdminPanelSettings } from "react-icons/md";
 
 export default function Home() {
+  const [name, setName] = useState('jhon');
+
+  const handleSubmit = async (e) => {
+    console.log('submitting name to the database');
+    e.preventDefault();
+    const response = await fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name }),
+    });
+    if (response.ok) {
+      // Name stored successfully
+      console.log('Name stored in the database');
+    } else {
+      // Failed to store name, handle accordingly
+      console.error('Failed to store name in the database');
+    }
+  };
+
   return (
     <main className="bg-primary w-screen h-screen flex items-center justify-center">
       <button
@@ -35,13 +57,15 @@ export default function Home() {
             <span className="m-3" />
             <InputBox placeholder="Section" />
           </div>
-
-          <input
-            type="button"
-            value="Register"
-            className="text-base p-3 bg-tertiary text-white rounded-md w-full cursor-pointer shadow-lg active:shadow-sm"
-          />
+          <form onSubmit={handleSubmit}>
+            <input
+              type="submit"
+              value="Register"
+              className="text-base p-3 bg-tertiary text-white rounded-md w-full cursor-pointer shadow-lg active:shadow-sm"
+            />
+          </form>
         </section>
+
         <section className="w-[50%]  h-full bg-white hidden md:flex flex-col items-start justify-center  rounded-r-lg">
           <h2 className="font-bold text-5xl mx-14">Student</h2>
           <img src="/studentlogin.jpg" alt="" />
