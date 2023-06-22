@@ -17,4 +17,6 @@ model student {
   subject String
   semester String
   section String  
+  ip String
+  createdAt DateTime @default(now())
 }
