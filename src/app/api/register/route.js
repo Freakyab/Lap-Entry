@@ -33,8 +33,10 @@ export default async function POST(request) {
       },
     }).catch((err) => console.log(err));
 
+    // response
     const msg = result.id ? "success" : "failed";
 
+    // return response with msg
     return new NextResponse(JSON.stringify({ message: msg }), {
       headers: {
         "content-type": "application/json",
