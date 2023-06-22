@@ -241,7 +241,7 @@ function AdminPage() {
     }
   };
 
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const [isFilter, setIsFilter] = useState(false);
   const [filter, dispatch] = useReducer(reducer, initialform);
   const [filteredData, setFilteredData] = useState([]);
