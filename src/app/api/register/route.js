@@ -31,7 +31,7 @@ export async function POST(request) {
         section,
         createdAt: new Date(),
         ip
-      },
+      }
     }).catch((err) => console.log(err))
     ;
     let msg = "";

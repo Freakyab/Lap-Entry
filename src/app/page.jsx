@@ -88,13 +88,13 @@ export default function Home() {
               onSubmit={async (e) => {
                 e.preventDefault();
                 if (
-                  !formState.uid ||
-                  !formState.fullname ||
-                  !formState.labno ||
-                  !formState.pcno ||
-                  !formState.subject ||
-                  !formState.semester ||
-                  !formState.section
+                  !formState.uid
+                  || !formState.fullname
+                  || !formState.labno
+                  || !formState.pcno
+                  || !formState.subject
+                  || !formState.semester
+                  || !formState.section
                 ) {
                   return;
                 }
@@ -110,8 +110,8 @@ export default function Home() {
                   body: JSON.stringify(formState),
                 })
                   .then((res) => res.json())
-                  .then((data) => {
-                    if (data.message === "success") {
+                  .then((messData) => {
+                    if (messData.message === "success") {
                       setSuccess(true);
                     }
                   });
