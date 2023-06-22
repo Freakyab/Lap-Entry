@@ -1,7 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-function CheckBoxInput({ label, value, setValue, actionType }) {
+function CheckBoxInput({
+  label,
+  value,
+  setValue,
+  actionType,
+}) {
   return (
     <div className="flex mx-1">
       <input
