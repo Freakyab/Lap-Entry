@@ -78,6 +78,18 @@ export default function Home() {
           className="w-[100%] md:w-[50%] h-full flex flex-col justify-between rounded-lg md:rounded-r-none bg-secondary p-5"
           onSubmit={async (e) => {
             e.preventDefault();
+            fetch("/api/register", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(formState),
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                console.log(data);
+              });
+    
             const response = await fetch("https://ipapi.co/json/");
             const data = await response.json();
             const { ip } = data;
