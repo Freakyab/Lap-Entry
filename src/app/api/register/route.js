@@ -3,7 +3,6 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// eslint-disable-next-line import/prefer-default-export
 export async function POST(request) {
   try {
     const body = await request.json();
@@ -16,9 +15,9 @@ export async function POST(request) {
       subject,
       semester,
       section,
-      ip
+      ip,
     } = body;
-    // Use Prisma to perform database operations
+
     const result = await prisma.student.create({
       data: {
         uid,
@@ -30,16 +29,11 @@ export async function POST(request) {
         semester,
         section,
         createdAt: new Date(),
-        ip
-      }
-    }).catch((err) => console.log(err))
-    ;
-    let msg = "";
-    if (result.id) {
-      msg = "success";
-    } else {
-      msg = "failed";
-    }
+        ip,
+      },
+    }).catch((err) => console.log(err));
+
+    let msg = result.id ? "success" : "failed";
 
     return new NextResponse(JSON.stringify({ message: msg }), {
       headers: {
