@@ -18,7 +18,7 @@ import { FaFilter } from "react-icons/fa";
 
 import InputBox from "../../components/input";
 import CheckBoxInput from "../../components/checkboxinput";
-import dataList from "./data.json";
+// import dataList from "./data.json";
 
 const ACTION = {
   UID: "uid",
@@ -176,60 +176,6 @@ function AdminPage() {
     section: "",
   };
 
-  const reducer = (form, action) => {
-    console.log(form);
-    switch (action.type) {
-      case ACTION.UID:
-        return { ...form, uid: action.payload };
-      case ACTION.FULLNAME:
-        return { ...form, fullname: action.payload };
-      case ACTION.LABNO:
-        return { ...form, labno: action.payload };
-      case ACTION.PCNO:
-        return { ...form, pcno: action.payload };
-      case ACTION.PERSONALLAPTOP:
-        return { ...form, personalLaptop: action.payload };
-      case ACTION.SUBJECT:
-        return { ...form, subject: action.payload };
-      case ACTION.SEMESTER:
-        return { ...form, semester: action.payload };
-      case ACTION.SECTION:
-        return { ...form, section: action.payload };
-      default:
-        return form;
-    }
-  };
-
-  const [isLogin, setIsLogin] = useState(true);
-  const [isFilter, setIsFilter] = useState(false);
-  const [filter, dispatch] = useReducer(reducer, initialform);
-  const [filteredData, setFilteredData] = useState(dataList);
-
-  const data = useMemo(() => filteredData, [filteredData]);
-
-  useEffect(() => {
-    const filtered = dataList.filter((d) => {
-      const uid = d.uid.toString();
-      const semester = d.semester.toString();
-      const pcno = d.pcno.toString();
-      if (
-        (filter.uid === "" || uid.includes(filter.uid))
-        && (filter.fullname === "" || d.name.includes(filter.fullname))
-        && (filter.labno === "" || d.labno.includes(filter.labno))
-        && (filter.pcno === "" || pcno.includes(filter.pcno))
-        && (filter.subject === "" || d.subject.includes(filter.subject))
-        && (filter.semester === "" || semester.includes(filter.semester))
-        && (filter.section === "" || d.section.includes(filter.section))
-        && (filter.personalLaptop === false || d.personal_laptop === filter.personalLaptop)
-
-      ) {
-        return true;
-      }
-      return false;
-    });
-    setFilteredData(filtered);
-  }, [filter]);
-
   const columns = useMemo(
     () => [
       {
@@ -238,7 +184,7 @@ function AdminPage() {
       },
       {
         Header: "Name",
-        accessor: "name",
+        accessor: "fullname",
       },
       {
         Header: "Lab no.",
@@ -271,6 +217,72 @@ function AdminPage() {
     ],
     [],
   );
+
+  const reducer = (form, action) => {
+    switch (action.type) {
+      case ACTION.UID:
+        return { ...form, uid: action.payload };
+      case ACTION.FULLNAME:
+        return { ...form, fullname: action.payload };
+      case ACTION.LABNO:
+        return { ...form, labno: action.payload };
+      case ACTION.PCNO:
+        return { ...form, pcno: action.payload };
+      case ACTION.PERSONALLAPTOP:
+        return { ...form, personalLaptop: action.payload };
+      case ACTION.SUBJECT:
+        return { ...form, subject: action.payload };
+      case ACTION.SEMESTER:
+        return { ...form, semester: action.payload };
+      case ACTION.SECTION:
+        return { ...form, section: action.payload };
+      default:
+        return form;
+    }
+  };
+
+  const [isLogin, setIsLogin] = useState(false);
+  const [isFilter, setIsFilter] = useState(false);
+  const [filter, dispatch] = useReducer(reducer, initialform);
+  const [filteredData, setFilteredData] = useState([]);
+  const data = useMemo(() => filteredData, [filteredData]);
+
+  async function fetchData() {
+    const result = await fetch("/api/getData", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    setFilteredData(await result.json());
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const filtered = filteredData.filter((d) => {
+      const uid = d.uid.toString();
+      const semester = d.semester.toString();
+      const pcno = d.pcno.toString();
+      if (
+        (filter.uid === "" || uid.includes(filter.uid))
+        && (filter.fullname === "" || d.name.includes(filter.fullname))
+        && (filter.labno === "" || d.labno.includes(filter.labno))
+        && (filter.pcno === "" || pcno.includes(filter.pcno))
+        && (filter.subject === "" || d.subject.includes(filter.subject))
+        && (filter.semester === "" || semester.includes(filter.semester))
+        && (filter.section === "" || d.section.includes(filter.section))
+        && (filter.personalLaptop === false || d.personal_laptop === filter.personalLaptop)
+
+      ) {
+        return true;
+      }
+      return false;
+    });
+    setFilteredData(filtered);
+  }, [filter]);
 
   const {
     getTableProps,
