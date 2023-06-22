@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function POST(request) {
+export default async function POST(request) {
   try {
     const body = await request.json();
     const {
@@ -33,7 +33,7 @@ export async function POST(request) {
       },
     }).catch((err) => console.log(err));
 
-    let msg = result.id ? "success" : "failed";
+    const msg = result.id ? "success" : "failed";
 
     return new NextResponse(JSON.stringify({ message: msg }), {
       headers: {
