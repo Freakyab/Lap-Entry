@@ -2,16 +2,234 @@
 
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, {
+  useMemo,
+  useState,
+  useReducer,
+  useEffect,
+} from "react";
 import PropTypes from "prop-types";
 import { usePagination, useTable } from "react-table";
+import { useRouter } from "next/navigation";
+
 import { AiOutlineArrowRight, AiOutlineArrowLeft } from "react-icons/ai";
+import { BiLogOut } from "react-icons/bi";
+import { FaFilter } from "react-icons/fa";
+
 import InputBox from "../../components/input";
+import CheckBoxInput from "../../components/checkboxinput";
 import dataList from "./data.json";
 
+const ACTION = {
+  UID: "uid",
+  FULLNAME: "fullname",
+  LABNO: "labno",
+  PCNO: "pcno",
+  PERSONALLAPTOP: "personalLaptop",
+  SUBJECT: "subject",
+  SEMESTER: "semester",
+  SECTION: "section",
+};
+
+// eslint-disable-next-line react/prop-types
+function AdminPageLogin({ setIsLogin }) {
+  const [id, setId] = useState("");
+  const [password, setPassword] = useState("");
+
+  return (
+    <main className="bg-primary w-screen h-screen flex flex-col items-center justify-center">
+      <div className="w-1/3 flex flex-col justify-center items-center py-5 bg-secondary rounded-lg shadow-lg">
+        <h1 className="font-bold text-5xl mx-14 text-white">Admin Login</h1>
+        <br />
+        <br />
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (id === "admin" && password === "admin") {
+              setIsLogin(true);
+            } else {
+              alert("ID or Password is incorrect");
+            }
+          }}
+          className="w-[100%] md:w-[80%] h-full flex flex-col justify-between rounded-lg p-5"
+        >
+          <InputBox type="text" placeholder="ID" value={id} setValue={setId} />
+          <InputBox
+            type="password"
+            placeholder="Password"
+            value={password}
+            setValue={setPassword}
+          />
+          <br />
+          <br />
+          <input
+            type="submit"
+            value="Login"
+            className="text-base p-3 bg-tertiary text-white rounded-md w-full cursor-pointer shadow-lg active:shadow-sm"
+          />
+        </form>
+      </div>
+    </main>
+  );
+}
+
+function Filter({ isFilter, filter, dispatch }) {
+  return (
+    <div
+      className={`${
+        isFilter ? "w-full md:w-1/3 p-5" : "w-0 p-0"
+      } transition-all duration-700`}
+    >
+      <h1 className="font-bold  text-3xl  mx-14 text-tertiary">Filter</h1>
+      <div>
+        <InputBox
+          label="UID"
+          type="number"
+          placeholder="Enter UID"
+          value={filter.uid}
+          setValue={dispatch}
+          actionType={ACTION.UID}
+        />
+
+        <InputBox
+          label="Full Name"
+          type="text"
+          placeholder="Enter Name"
+          value={filter.fullname}
+          setValue={dispatch}
+          actionType={ACTION.FULLNAME}
+        />
+
+        <InputBox
+          label="lab no."
+          type="text"
+          placeholder="Enter Lab No."
+          value={filter.labno}
+          setValue={dispatch}
+          actionType={ACTION.LABNO}
+        />
+
+        <InputBox
+          label="pc no."
+          type="number"
+          placeholder="Enter PC No."
+          value={filter.pcno}
+          setValue={dispatch}
+          actionType={ACTION.PCNO}
+        />
+
+        <InputBox
+          label="Subject"
+          type="text"
+          placeholder="Enter Subject"
+          value={filter.subject}
+          setValue={dispatch}
+          actionType={ACTION.SUBJECT}
+        />
+
+        <CheckBoxInput
+          label="Personal Laptop"
+          value={filter.personalLaptop}
+          setValue={dispatch}
+          actionType={ACTION.PERSONALLAPTOP}
+        />
+
+        <InputBox
+          label="Semester"
+          type="text"
+          placeholder="Enter Semester"
+          value={filter.semester}
+          setValue={dispatch}
+          actionType={ACTION.SEMESTER}
+        />
+
+        <InputBox
+          label="Section"
+          type="text"
+          placeholder="Enter Section"
+          value={filter.section}
+          setValue={dispatch}
+          actionType={ACTION.SECTION}
+        />
+
+      </div>
+    </div>
+  );
+}
+
+Filter.propTypes = {
+  isFilter: PropTypes.bool.isRequired,
+  filter: PropTypes.string.isRequired,
+  dispatch: PropTypes.func.isRequired,
+};
+
 function AdminPage() {
-  const [isLogin, setIsLogin] = useState(false);
-  const data = useMemo(() => dataList, []);
+  const router = useRouter();
+  const initialform = {
+    uid: "",
+    fullname: "",
+    labno: "",
+    pcno: "",
+    personalLaptop: false,
+    subject: "",
+    semester: "",
+    section: "",
+  };
+
+  const reducer = (form, action) => {
+    console.log(form);
+    switch (action.type) {
+      case ACTION.UID:
+        return { ...form, uid: action.payload };
+      case ACTION.FULLNAME:
+        return { ...form, fullname: action.payload };
+      case ACTION.LABNO:
+        return { ...form, labno: action.payload };
+      case ACTION.PCNO:
+        return { ...form, pcno: action.payload };
+      case ACTION.PERSONALLAPTOP:
+        return { ...form, personalLaptop: action.payload };
+      case ACTION.SUBJECT:
+        return { ...form, subject: action.payload };
+      case ACTION.SEMESTER:
+        return { ...form, semester: action.payload };
+      case ACTION.SECTION:
+        return { ...form, section: action.payload };
+      default:
+        return form;
+    }
+  };
+
+  const [isLogin, setIsLogin] = useState(true);
+  const [isFilter, setIsFilter] = useState(false);
+  const [filter, dispatch] = useReducer(reducer, initialform);
+  const [filteredData, setFilteredData] = useState(dataList);
+
+  const data = useMemo(() => filteredData, [filteredData]);
+
+  useEffect(() => {
+    const filtered = dataList.filter((d) => {
+      const uid = d.uid.toString();
+      const semester = d.semester.toString();
+      const pcno = d.pcno.toString();
+      if (
+        (filter.uid === "" || uid.includes(filter.uid))
+        && (filter.fullname === "" || d.name.includes(filter.fullname))
+        && (filter.labno === "" || d.labno.includes(filter.labno))
+        && (filter.pcno === "" || pcno.includes(filter.pcno))
+        && (filter.subject === "" || d.subject.includes(filter.subject))
+        && (filter.semester === "" || semester.includes(filter.semester))
+        && (filter.section === "" || d.section.includes(filter.section))
+        && (filter.personalLaptop === false || d.personal_laptop === filter.personalLaptop)
+
+      ) {
+        return true;
+      }
+      return false;
+    });
+    setFilteredData(filtered);
+  }, [filter]);
+
   const columns = useMemo(
     () => [
       {
@@ -42,6 +260,14 @@ function AdminPage() {
         Header: "Section",
         accessor: "section",
       },
+      {
+        Header: "Date",
+        accessor: "date",
+      },
+      {
+        Header: "IP Address",
+        accessor: "ip_address",
+      },
     ],
     [],
   );
@@ -62,45 +288,78 @@ function AdminPage() {
   } = useTable({ columns, data }, usePagination);
 
   if (!isLogin) {
-    return (
-      <AdminPageLogin setIsLogin={setIsLogin} />
-    );
+    return <AdminPageLogin setIsLogin={setIsLogin} />;
   }
 
   return (
     <main className="bg-primary w-screen h-screen flex flex-col items-center justify-center">
-      <header className="m-10">
-        <h1 className="font-bold text-5xl mx-14 text-tertiary">Admin Page</h1>
+      <header className="w-4/5 flex justify-between md:m-10 m-5">
+        <h1 className="font-bold md:text-5xl text-2xl  mx-14 text-tertiary">
+          Admin Page
+        </h1>
+        <div>
+          <button
+            type="button"
+            className="text-base p-3 bg-tertiary text-white rounded-md w-fit cursor-pointer shadow-lg active:shadow-sm mx-2"
+            onClick={() => setIsFilter(!isFilter)}
+          >
+            <span className="text-white">
+              <FaFilter />
+            </span>
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              router.push("/");
+              setIsLogin(false);
+            }}
+            className="text-base p-3 bg-tertiary text-white rounded-md w-fit cursor-pointer shadow-lg active:shadow-sm"
+          >
+            <span className="text-white">
+              <BiLogOut />
+            </span>
+          </button>
+        </div>
       </header>
-      <div className="w-4/5  bg-white rounded-lg shadow-lg">
-        <table {...getTableProps} className="rounded-lg">
-          <thead className="bg-tertiary text-white text-base font-bold">
-            {headerGroups.map((headerGroup) => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
-                  <th {...column.getHeaderProps()}>
-                    {column.render("Header")}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-            {page.map((row) => {
-              prepareRow(row);
-              return (
-                <tr
-                  {...row.getRowProps()}
-                  className="hover:bg-secondary cursor-pointer"
-                >
-                  {row.cells.map((cell) => (
-                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+      <div className="flex w-4/5 h-3/5 relative overflow-hidden bg-white rounded-lg shadow-lg">
+        <div
+          className={`rounded-lg ${
+            isFilter ? "md:w-2/3 w-0" : "w-full"
+          } transition-all duration-700 w-f md:!overflow-x-hidden  overflow-scroll`}
+        >
+          <table
+            {...getTableProps}
+          >
+            <thead className="sticky top-0 left-0 bg-tertiary text-white text-base font-bold">
+              {headerGroups.map((headerGroup) => (
+                <tr {...headerGroup.getHeaderGroupProps()}>
+                  {headerGroup.headers.map((column) => (
+                    <th {...column.getHeaderProps()}>
+                      {column.render("Header")}
+                    </th>
                   ))}
                 </tr>
-              );
-            })}
-          </tbody>
-        </table>
+              ))}
+            </thead>
+            <tbody {...getTableBodyProps()}>
+              <tr> </tr>
+              {page.map((row) => {
+                prepareRow(row);
+                return (
+                  <tr
+                    {...row.getRowProps()}
+                    className="hover:bg-secondary cursor-pointer"
+                  >
+                    {row.cells.map((cell) => (
+                      <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                    ))}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+        <Filter isFilter={isFilter} filter={filter} dispatch={dispatch} />
       </div>
       <br />
       <div className=" flex justify-between w-4/5 ">
@@ -148,41 +407,6 @@ function AdminPage() {
             <AiOutlineArrowRight size="20px" />
           </span>
         </button>
-      </div>
-    </main>
-  );
-}
-
-// eslint-disable-next-line react/prop-types
-function AdminPageLogin({ setIsLogin }) {
-  const [id, setId] = useState("");
-  const [password, setPassword] = useState("");
-
-  return (
-    <main className="bg-primary w-screen h-screen flex flex-col items-center justify-center">
-      <div className="w-1/3 flex flex-col justify-center items-center py-5 bg-secondary rounded-lg shadow-lg">
-        <h1 className="font-bold text-5xl mx-14 text-white">Admin Login</h1>
-        <br />
-        <br />
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (id === "admin" && password === "admin") {
-              setIsLogin(true);
-            }
-          }}
-          className="w-[100%] md:w-[80%] h-full flex flex-col justify-between rounded-lg p-5"
-        >
-          <InputBox type="text" placeholder="ID" value={id} setValue={setId} />
-          <InputBox type="password" placeholder="Password" value={password} setValue={setPassword} />
-          <br />
-          <br />
-          <input
-            type="submit"
-            value="Login"
-            className="text-base p-3 bg-tertiary text-white rounded-md w-full cursor-pointer shadow-lg active:shadow-sm"
-          />
-        </form>
       </div>
     </main>
   );

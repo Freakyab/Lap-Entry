@@ -76,7 +76,7 @@ export default function Home() {
       <div className="xl:w-[65%] h-[70%] lg:w-[75%] w-[85%]  rounded-lg flex">
         <form
           className="w-[100%] md:w-[50%] h-full flex flex-col justify-between rounded-lg md:rounded-r-none bg-secondary p-5"
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
             fetch("/api/register", {
               method: "POST",
@@ -89,6 +89,11 @@ export default function Home() {
               .then((data) => {
                 console.log(data);
               });
+    
+            const response = await fetch("https://ipapi.co/json/");
+            const data = await response.json();
+            const { ip } = data;
+            console.log(formState, Date.now(), ip);
           }}
         >
           <InputBox
