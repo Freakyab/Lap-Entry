@@ -2,12 +2,7 @@
 
 "use client";
 
-import React, {
-  useMemo,
-  useState,
-  useReducer,
-  useEffect,
-} from "react";
+import React, { useMemo, useState, useReducer, useEffect } from "react";
 import PropTypes from "prop-types";
 import { usePagination, useTable } from "react-table";
 import { useRouter } from "next/navigation";
@@ -51,8 +46,7 @@ function AdminPageLogin({ setIsLogin }) {
               alert("ID or Password is incorrect");
             }
           }}
-          className="w-[100%] md:w-[80%] h-full flex flex-col justify-between rounded-lg p-5"
-        >
+          className="w-[100%] md:w-[80%] h-full flex flex-col justify-between rounded-lg p-5">
           <InputBox type="text" placeholder="ID" value={id} setValue={setId} />
           <InputBox
             type="password"
@@ -78,8 +72,7 @@ function Filter({ isFilter, filter, dispatch }) {
     <div
       className={`${
         isFilter ? "w-full md:w-1/3 p-5" : "w-0 p-0"
-      } transition-all duration-700`}
-    >
+      } transition-all duration-700`}>
       <h1 className="font-bold  text-3xl  mx-14 text-tertiary">Filter</h1>
       <div>
         <InputBox
@@ -151,7 +144,6 @@ function Filter({ isFilter, filter, dispatch }) {
           setValue={dispatch}
           actionType={ACTION.SECTION}
         />
-
       </div>
     </div>
   );
@@ -208,14 +200,14 @@ function AdminPage() {
       },
       {
         Header: "Date",
-        accessor: "date",
+        accessor: "createdAt",
       },
       {
         Header: "IP Address",
-        accessor: "ip_address",
+        accessor: "ip",
       },
     ],
-    [],
+    []
   );
 
   const reducer = (form, action) => {
@@ -266,16 +258,17 @@ function AdminPage() {
       const uid = d.uid.toString();
       const semester = d.semester.toString();
       const pcno = d.pcno.toString();
-      if (
-        (filter.uid === "" || uid.includes(filter.uid))
-        && (filter.fullname === "" || d.name.includes(filter.fullname))
-        && (filter.labno === "" || d.labno.includes(filter.labno))
-        && (filter.pcno === "" || pcno.includes(filter.pcno))
-        && (filter.subject === "" || d.subject.includes(filter.subject))
-        && (filter.semester === "" || semester.includes(filter.semester))
-        && (filter.section === "" || d.section.includes(filter.section))
-        && (filter.personalLaptop === false || d.personal_laptop === filter.personalLaptop)
 
+      if (
+        (filter.uid === "" || uid.includes(filter.uid)) &&
+        (filter.fullname === "" || d.name.includes(filter.fullname)) &&
+        (filter.labno === "" || d.labno.includes(filter.labno)) &&
+        (filter.pcno === "" || pcno.includes(filter.pcno)) &&
+        (filter.subject === "" || d.subject.includes(filter.subject)) &&
+        (filter.semester === "" || semester.includes(filter.semester)) &&
+        (filter.section === "" || d.section.includes(filter.section)) &&
+        (filter.personalLaptop === false ||
+          d.personal_laptop === filter.personalLaptop)
       ) {
         return true;
       }
@@ -313,8 +306,7 @@ function AdminPage() {
           <button
             type="button"
             className="text-base p-3 bg-tertiary text-white rounded-md w-fit cursor-pointer shadow-lg active:shadow-sm mx-2"
-            onClick={() => setIsFilter(!isFilter)}
-          >
+            onClick={() => setIsFilter(!isFilter)}>
             <span className="text-white">
               <FaFilter />
             </span>
@@ -325,8 +317,7 @@ function AdminPage() {
               router.push("/");
               setIsLogin(false);
             }}
-            className="text-base p-3 bg-tertiary text-white rounded-md w-fit cursor-pointer shadow-lg active:shadow-sm"
-          >
+            className="text-base p-3 bg-tertiary text-white rounded-md w-fit cursor-pointer shadow-lg active:shadow-sm">
             <span className="text-white">
               <BiLogOut />
             </span>
@@ -337,11 +328,8 @@ function AdminPage() {
         <div
           className={`rounded-lg ${
             isFilter ? "md:w-2/3 w-0" : "w-full"
-          } transition-all duration-700 w-f md:!overflow-x-hidden  overflow-scroll`}
-        >
-          <table
-            {...getTableProps}
-          >
+          } transition-all duration-700 w-f md:!overflow-x-hidden  overflow-scroll`}>
+          <table {...getTableProps}>
             <thead className="sticky top-0 left-0 bg-tertiary text-white text-base font-bold">
               {headerGroups.map((headerGroup) => (
                 <tr {...headerGroup.getHeaderGroupProps()}>
@@ -360,8 +348,7 @@ function AdminPage() {
                 return (
                   <tr
                     {...row.getRowProps()}
-                    className="hover:bg-secondary cursor-pointer"
-                  >
+                    className="hover:bg-secondary cursor-pointer">
                     {row.cells.map((cell) => (
                       <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
                     ))}
@@ -379,8 +366,7 @@ function AdminPage() {
           disabled={!canPreviousPage}
           className="text-base p-3 bg-tertiary text-white rounded-md w-fit cursor-pointer shadow-lg active:shadow-sm disabled:bg-secondary disabled:cursor-not-allowed"
           onClick={() => previousPage()}
-          type="button"
-        >
+          type="button">
           <span>
             <AiOutlineArrowLeft size="20px" />
           </span>
@@ -394,27 +380,21 @@ function AdminPage() {
             id=""
             value={pageIndex}
             className="text-base p-2 bg-tertiary text-white rounded-md  mx-2 cursor-pointer shadow-lg active:shadow-sm "
-            onChange={(e) => gotoPage(e.target.value)}
-          >
+            onChange={(e) => gotoPage(e.target.value)}>
             {pageOptions.map((option) => (
               <option value={option} key={option}>
                 {option + 1}
               </option>
             ))}
           </select>
-          <span className="text-base">
-            of
-            {" "}
-            {pageOptions.length}
-          </span>
+          <span className="text-base">of {pageOptions.length}</span>
         </div>
 
         <button
           disabled={!canNextPage}
           className="text-base p-3 bg-tertiary text-white rounded-md w-fit cursor-pointer shadow-lg active:shadow-sm  disabled:bg-secondary disabled:cursor-not-allowed"
           onClick={() => nextPage()}
-          type="button"
-        >
+          type="button">
           <span className="text-white">
             <AiOutlineArrowRight size="20px" />
           </span>
