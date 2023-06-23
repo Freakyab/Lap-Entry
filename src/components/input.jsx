@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 function InputBox({
-  placeholder, type, value, setValue, actionType,
+  placeholder, type, value, setValue, actionType, isDisabled,
 }) {
   return (
     <div className="w-full my-2">
@@ -17,8 +17,9 @@ function InputBox({
               payload: e.target.value,
             }) : setValue(e.target.value);
         }}
-        className="text-base p-2 rounded-md w-full  focus:ring-2 focus:ring-tertiary focus:outline-none placeholder-black placeholder:text-base placeholder:font-bold"
+        className="text-base p-2 rounded-md w-full  focus:ring-2 focus:ring-tertiary focus:outline-none placeholder-black placeholder:text-base placeholder:font-bold disabled:cursor-not-allowed"
         placeholder={placeholder}
+        disabled={isDisabled || false}
       />
     </div>
   );
@@ -36,4 +37,5 @@ InputBox.propTypes = {
   ]).isRequired,
   setValue: PropTypes.func.isRequired,
   actionType: PropTypes.string.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
 };

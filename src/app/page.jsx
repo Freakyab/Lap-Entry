@@ -90,6 +90,8 @@ export default function Home() {
                     || !formState.subject
                     || !formState.semester
                     || !formState.section) {
+                    // eslint-disable-next-line no-alert
+                    alert("Please fill all the fields");
                     return;
                   }
                   fetch("/api/register", {
@@ -139,6 +141,7 @@ export default function Home() {
                     value={formState.pcno}
                     setValue={dispatch}
                     actionType={ACTION.PCNO}
+                    isDisabled={formState.personalLaptop}
                   />
                   <CheckBoxInput
                     label="Personal Laptop"
