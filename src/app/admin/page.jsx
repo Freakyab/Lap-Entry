@@ -248,16 +248,15 @@ function AdminPage() {
   const data = useMemo(() => filteredData, [filteredData]);
 
   async function fetchData() {
-    const result = await fetch("/api/getData", {
+    const result = await fetch("https://freaky-api.vercel.app/LabEntry/getData", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
     });
     const resultData = await result.json();
-    setOriginalData(resultData);
-    setFilteredData(resultData);
-    console.log(resultData);
+    setOriginalData(resultData.data);
+    setFilteredData(resultData.data);
   }
 
   useEffect(() => {
