@@ -82,7 +82,7 @@ export default function Home() {
             const data = await response.json();
             const { ip } = data;
             formState.ip = ip;
-            fetch("http://localhost:5000/LabEntry/register", {
+            await fetch("http://localhost:5000/LabEntry/register", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
