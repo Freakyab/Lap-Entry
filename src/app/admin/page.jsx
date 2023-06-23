@@ -151,7 +151,6 @@ function Filter({ isFilter, filter, dispatch }) {
           setValue={dispatch}
           actionType={ACTION.SECTION}
         />
-
       </div>
     </div>
   );
@@ -208,11 +207,11 @@ function AdminPage() {
       },
       {
         Header: "Date",
-        accessor: "date",
+        accessor: "createdAt",
       },
       {
         Header: "IP Address",
-        accessor: "ip_address",
+        accessor: "ip",
       },
     ],
     [],
@@ -258,6 +257,7 @@ function AdminPage() {
     const resultData = await result.json();
     setOriginalData(resultData);
     setFilteredData(resultData);
+    console.log(resultData);
   }
 
   useEffect(() => {
@@ -269,6 +269,7 @@ function AdminPage() {
       const uid = d.uid.toString();
       const semester = d.semester.toString();
       const pcno = d.pcno.toString();
+
       if (
         (filter.uid === "" || uid.includes(filter.uid))
         && (filter.fullname === "" || d.fullname.includes(filter.fullname))
@@ -277,7 +278,8 @@ function AdminPage() {
         && (filter.subject === "" || d.subject.includes(filter.subject))
         && (filter.semester === "" || semester.includes(filter.semester))
         && (filter.section === "" || d.section.includes(filter.section))
-        && (filter.personalLaptop === false || d.personal_laptop === filter.personalLaptop)
+        && (filter.personalLaptop === false
+        || d.personal_laptop === filter.personalLaptop)
       ) {
         return true;
       }
@@ -438,7 +440,6 @@ function AdminPage() {
           </select>
           <span className="text-base">
             of
-            {" "}
             {pageOptions.length}
           </span>
         </div>
