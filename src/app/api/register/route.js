@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+// eslint-disable-next-line import/prefer-default-export
 export async function POST(request) {
   try {
     const body = await request.json();
