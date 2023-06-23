@@ -1,0 +1,18 @@
+{
+    "builds": [
+      {
+        "src": "api/**/*.js",
+        "use": "@vercel/node"
+      }
+    ],
+    "version": 2,
+    "env": {
+      "PRISMA_GENERATE_CMD": "npx prisma generate"
+    },
+    "functions": {
+      "api/**/*.js": {
+        "memory": 1024
+      }
+    }
+  }
+  

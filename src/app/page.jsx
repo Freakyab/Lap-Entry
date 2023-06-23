@@ -114,16 +114,15 @@ export default function Home() {
                 }}
               >
                 <InputBox
-                  placeholder="UID"
+                  placeholder="Pc no."
                   type="number"
-                  value={formState.uid}
+                  value={formState.pcno}
                   setValue={dispatch}
-                  actionType={ACTION.UID}
+                  actionType={ACTION.PCNO}
                 />
-                <InputBox
-                  placeholder="Fullname"
-                  type="text"
-                  value={formState.fullname}
+                <CheckBoxInput
+                  label="Personal Laptop"
+                  value={formState.personalLaptop}
                   setValue={dispatch}
                   actionType={ACTION.FULLNAME}
                 />
@@ -150,6 +149,13 @@ export default function Home() {
                     actionType={ACTION.PERSONALLAPTOP}
                   />
                 </div>
+                <InputBox
+                  placeholder="Subject"
+                  type="text"
+                  value={formState.subject}
+                  setValue={dispatch}
+                  actionType={ACTION.SUBJECT}
+                />
                 <InputBox
                   placeholder="Subject"
                   type="text"

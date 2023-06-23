@@ -16,9 +16,9 @@ export async function POST(request) {
       subject,
       semester,
       section,
+      ip,
     } = body;
 
-    // Use Prisma to perform database operations
     const result = await prisma.student.create({
       data: {
         uid,
@@ -29,16 +29,15 @@ export async function POST(request) {
         subject,
         semester,
         section,
+        createdAt: new Date(),
+        ip,
       },
-    });
+    }).catch((err) => console.log(err));
 
-    let msg = "";
-    if (result.id) {
-      msg = "success";
-    } else {
-      msg = "failed";
-    }
+    // response
+    const msg = result.id ? "success" : "failed";
 
+    // return response with msg
     return new NextResponse(JSON.stringify({ message: msg }), {
       headers: {
         "content-type": "application/json",
