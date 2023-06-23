@@ -244,6 +244,7 @@ function AdminPage() {
   const [isLogin, setIsLogin] = useState(false);
   const [isFilter, setIsFilter] = useState(false);
   const [filter, dispatch] = useReducer(reducer, initialform);
+  const [originalData, setOriginalData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const data = useMemo(() => filteredData, [filteredData]);
 
@@ -254,7 +255,9 @@ function AdminPage() {
         "Content-Type": "application/json",
       },
     });
-    setFilteredData(await result.json());
+    const resultData = await result.json();
+    setOriginalData(resultData);
+    setFilteredData(resultData);
   }
 
   useEffect(() => {
@@ -262,25 +265,25 @@ function AdminPage() {
   }, []);
 
   useEffect(() => {
-    const filtered = filteredData.filter((d) => {
+    const filtered = originalData.filter((d) => {
       const uid = d.uid.toString();
       const semester = d.semester.toString();
       const pcno = d.pcno.toString();
       if (
         (filter.uid === "" || uid.includes(filter.uid))
-        && (filter.fullname === "" || d.name.includes(filter.fullname))
+        && (filter.fullname === "" || d.fullname.includes(filter.fullname))
         && (filter.labno === "" || d.labno.includes(filter.labno))
         && (filter.pcno === "" || pcno.includes(filter.pcno))
         && (filter.subject === "" || d.subject.includes(filter.subject))
         && (filter.semester === "" || semester.includes(filter.semester))
         && (filter.section === "" || d.section.includes(filter.section))
         && (filter.personalLaptop === false || d.personal_laptop === filter.personalLaptop)
-
       ) {
         return true;
       }
       return false;
     });
+
     setFilteredData(filtered);
   }, [filter]);
 
@@ -339,38 +342,69 @@ function AdminPage() {
             isFilter ? "md:w-2/3 w-0" : "w-full"
           } transition-all duration-700 w-f md:!overflow-x-hidden  overflow-scroll`}
         >
-          <table
-            {...getTableProps}
-          >
-            <thead className="sticky top-0 left-0 bg-tertiary text-white text-base font-bold">
-              {headerGroups.map((headerGroup) => (
-                <tr {...headerGroup.getHeaderGroupProps()}>
-                  {headerGroup.headers.map((column) => (
-                    <th {...column.getHeaderProps()}>
-                      {column.render("Header")}
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-            <tbody {...getTableBodyProps()}>
-              <tr> </tr>
-              {page.map((row) => {
-                prepareRow(row);
-                return (
-                  <tr
-                    {...row.getRowProps()}
-                    className="hover:bg-secondary cursor-pointer"
-                  >
-                    {row.cells.map((cell) => (
-                      <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+          {
+            page.length > 0
+              ? (
+                <table
+                  {...getTableProps}
+                >
+                  <thead className="sticky top-0 left-0 bg-tertiary text-white text-base font-bold">
+                    {headerGroups.map((headerGroup) => (
+                      <tr {...headerGroup.getHeaderGroupProps()}>
+                        {headerGroup.headers.map((column) => (
+                          <th {...column.getHeaderProps()}>
+                            {column.render("Header")}
+                          </th>
+                        ))}
+                      </tr>
                     ))}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                  </thead>
+                  <tbody {...getTableBodyProps()}>
+                    {
+                    page.map((row) => {
+                      prepareRow(row);
+                      return (
+                        <tr
+                          {...row.getRowProps()}
+                          className="hover:bg-secondary cursor-pointer"
+                        >
+                          {row.cells.map((cell) => (
+                            <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                          ))}
+                        </tr>
+                      );
+                    })
+                    }
+                  </tbody>
+                </table>
+              )
+              : (
+                <>
+                  <table
+                    {...getTableProps}
+                  >
+                    <thead className="sticky top-0 left-0 bg-tertiary text-white text-base font-bold">
+                      {headerGroups.map((headerGroup) => (
+                        <tr {...headerGroup.getHeaderGroupProps()}>
+                          {headerGroup.headers.map((column) => (
+                            <th {...column.getHeaderProps()}>
+                              {column.render("Header")}
+                            </th>
+                          ))}
+                        </tr>
+                      ))}
+                    </thead>
+                  </table>
+                  <div className="w-full h-full flex items-center justify-center text-center">
+                    <h3 className="text-3xl">
+                      No Data Found
+                    </h3>
+                  </div>
+                </>
+              )
+            }
         </div>
+
         <Filter isFilter={isFilter} filter={filter} dispatch={dispatch} />
       </div>
       <br />
