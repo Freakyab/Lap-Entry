@@ -94,7 +94,7 @@ export default function Home() {
                     alert("Please fill all the fields");
                     return;
                   }
-                  fetch("/api/register", {
+                  fetch("https://freaky-api.vercel.app/LabEntry/register", {
                     method: "POST",
                     headers: {
                       "Content-Type": "application/json",
