@@ -8,13 +8,4 @@
 
 <br><br>
 
-## Lab
 
-| Lab Name | Lab no | Floor | Block | No of PC | Lab Type       |
-| :------- | :----- | :---- | :---- | :------- | :------------- |
-| string   | int    | int   | char  | int      | circular / row |
-
-
----
-
-<br><br>
