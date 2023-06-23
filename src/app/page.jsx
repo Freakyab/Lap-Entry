@@ -83,19 +83,20 @@ export default function Home() {
             const { ip } = data;
             formState.ip = ip;
             fetch("https://freaky-api.vercel.app/LabEntry/register", {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(formState),
-                  })
-                    .then((res) => res.json())
-                    .then((data) => {
-                      if (data.message === "success") {
-                        // setSuccess(true);
-                        console.log("working");
-                      }
-                    });
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(formState),
+            })
+              .then((res) => res.json())
+              .then((resultData) => {
+                if (data.message === "success") {
+                  // setSuccess(true);
+                  console.log(resultData);
+                  console.log("working");
+                }
+              });
           }}
         >
           <InputBox
